@@ -1,0 +1,55 @@
+Spring boot
+1	Tìm hiểu về Maven (công cụ quản lý và thiết lập tự động hệ thống phần mềm, quản lý các thư viện và cài đặt thư viện 
+hỗ trợ build và kiểm tra project)
+
+2	1. Tạo project maven với spring assistant 
+	2. Set và đổi port, set file tĩnh
+
+3.	1. Tìm hiểu về bean, khác biệt giữa bean và object
+	2. Cách spring boot phân biệt giữa bean và object thường (thêm @Component để đánh dấu bean)
+
+4.	Tìm hiểu Component Scan. Cách để container tìm trong 1 phạm vi tìm kiếm 
+(@ComponentScan({folderA},{folderB}) hoặc @SpringBootApplication(scanBasePackages = “folderA”) trong file mainApplication
+
+5	Tìm hiểu @Autowired
+
+6	Tìm hiểu về @Scope. Ví dụ để tạo get 2 bean khác nhau dùng @Scope(“prototype”) ở class đó nếu muốn các đối tượng trỏ 
+đến cùng 1 bộ nhớ thì dùng @Scope(“singletor”)
+
+7.	Độ ưu tiên của bean, khi container đang phân vân giữa các bean tìm được. Giải pháp dùng @Primary (thêm ngay class ưu
+ tiên) hoặc @Qualifier (định danh ở component ở các class và thêm annotation ở khai báo field ở class cha hoặc nếu thêm ở 
+setter/getter thì annotation được thêm ở param)
+
+8. 	Kiến trúc 3Layer cũng có 3 lớp như mô hình MVC nhưng:
+		- Presentation layer (lớp giao tiếp với người dùng): controller (gửi request và tìm hàm để xử lý)
+		- Bussiness logic layer (lớp kiểm tra ràng buộc validation thông tin)
+		- Data access layer (lưu trữ và truy xuất các file trong hệ thống 
+vì vậy code sẽ tường minh hơn, dễ bảo trì, phát triển và tái sử dụng được sd thông qua các annotation (@controller PLayer, 
+@service BLLayer, @repository DALayer)
+
+
+9. Tạo RESTful API, tạo 2 class 
+	- Controller: xử lý các request của user từ đó gọi đến các hàm để xử lý trả về kết quả (@RestController để SBoot đánh 
+dấu class là controller). Giới thiệu @RequestMapping và RequestMethod để giới hạn phương thức
+	- User: chứa thông tin user. Giới thiệu các status thường gặp 200, 404, 500 (xử lý lỗi 404, 500 thì thay đổi return type
+thành ResponseEntity<?> và return sẽ thành (return ResponseEntity.status(HttpStatus.OK).body(user);
+Vd:
+@Entity User(id, name)
+@RestController
+Public class MyController{
+	@RequsetMapping(value="url", method = RequestMethod.GET)
+	public ResponseEntity<?> nameFunction(){
+		User user = new User(1,"nguyen van a");
+		return ResponseEntity.status(HttpStatus.OK).body(user); // có thể thay đổi phương thức OK thành các PT khác sẵn có
+	}
+}
+
+10, 11 ,12 Xây dựng RESTfulAPI quản lý user ( đang tìm hiểu về lỗi khi làm theo)
+
+13. Nói về các lỗi sẽ phát sinh để giảm sự hoang mang cho phía bên client là có dữ liệu hay không, từ dó thay vì trả về csdl
+status 200, thì ta có thể sử dụng exception để đưa về dạng 404 not found kèm 1 message để bên phía giao có thể có cách trình
+bày khác. Cách dùng @ExceptionHandler để chỉ định exception nào sẽ được thực hiện. Có thể sd AOP bằng @ControllerAdvice
+Tips: - Có thể thêm log lỗi hệ thống (có thể tạo method dùng chung tái sử dụng, có thể log lỗi vào db hay vào file
+	- Bổ sung handler xử lý các exception chưa được khai báo @ExceptionHandler(Exception.class)
+
+
